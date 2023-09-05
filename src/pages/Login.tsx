@@ -1,11 +1,14 @@
 import { useState, ChangeEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setUser } from '../redux/actions/actionsTypes';
 
 function Login() {
   const [isValid, setIsValid] = useState(false);
-  const [inputs, setInputs] = useState({
+  type InputsType = {
+    [key: string]: string;
+  };
+  const [inputs, setInputs] = useState<InputsType>({
     email: '',
     password: '',
   });
@@ -17,8 +20,6 @@ function Login() {
     setIsValid((passwordV && !!emailV));
   };
   const dispatch = useDispatch();
-  const test = useSelector((state: any) => state);
-  console.log(test.user.email);
   const navigate = useNavigate();
   return (
     <form
