@@ -1,13 +1,15 @@
 import { useSelector } from 'react-redux';
+import { RootStateType } from '../types';
 
 function Header() {
-  const email = useSelector((state: any) => state.user.email);
+  const email = useSelector((state: RootStateType) => state.user.email);
   const currency = 'BRL';
-  const expenses = useSelector((state: any) => state.wallet.expenses);
-  const total = expenses.reduce((acc: number, curr) => {
-    const { currency, exchangeRates, value } = curr;
-    const rate = exchangeRates[currency].ask;
-    return value * rate + acc;
+  const expenses = useSelector((state: RootStateType) => state.wallet.expenses);
+
+  const total = expenses.reduce((acc: number, expense) => {
+    const { currency: currExpense, exchangeRates, value } = expense;
+    const rate = exchangeRates[currExpense].ask;
+    return Number(value) * rate + acc;
   }, 0);
 
   return (

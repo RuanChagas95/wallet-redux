@@ -2,11 +2,11 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import api from '../services/api';
 import { addExpense, setCurrencies } from '../redux/actions/actionsTypes';
+import { RootStateType } from '../types';
 
 function WalletForm() {
   const dispatch = useDispatch();
-  type ValuesType = { [key: string]: string | number };
-  const id = useSelector((state) => state.wallet.expenses).length;
+  const id = useSelector((state: RootStateType) => state.wallet.expenses).length;
 
   useEffect(() => {
     const fetchCurrencies = async () => {
@@ -17,23 +17,23 @@ function WalletForm() {
     };
     fetchCurrencies();
   }, [dispatch]);
-  const currencies = useSelector((state) => state.wallet.currencies);
+  const currencies = useSelector((state : RootStateType) => state.wallet.currencies);
   const initialValues = {
     id,
     currency: 'USD',
     tag: 'Lazer',
     method: 'Dinheiro',
-    exchangeRates: currencies,
+    value: '',
+    description: '',
   };
 
-  const [values, setValues] = useState<ValuesType>(initialValues);
+  const [values, setValues] = useState(initialValues);
 
   const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     (async () => {
       const apiResult = await api();
-      values.exchangeRates = apiResult;
-      dispatch({ type: addExpense, payload: values });
+      dispatch({ type: addExpense, payload: { ...values, exchangeRates: apiResult } });
       setValues({ ...initialValues, id: values.id + 1 });
       event.target.reset();
     })();
