@@ -23,8 +23,8 @@ function WalletForm() {
     currency: 'USD',
     tag: 'Lazer',
     method: 'Dinheiro',
-    value: '',
     description: '',
+    value: '',
   };
 
   const [values, setValues] = useState(initialValues);
@@ -59,6 +59,7 @@ function WalletForm() {
           required
           placeholder="0,00"
           name="value"
+          value={ values.value ? values.value : '' }
         />
       </label>
 
@@ -72,6 +73,9 @@ function WalletForm() {
           type="text"
           data-testid="description-input"
           placeholder="Descrição da despesa"
+          required
+          value={ values.description ? values.description : '' }
+
         />
       </label>
       <label htmlFor="select-currency">

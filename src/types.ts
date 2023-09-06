@@ -1,7 +1,9 @@
 export type CurrenciesType = {
   [key: string]: {
     code: string;
-    ask: number
+    ask: string,
+    name: string
+    codein: string,
   };
 };
 

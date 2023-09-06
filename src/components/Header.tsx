@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 import { RootStateType } from '../types';
+import calcExRate from '../helpers/calcExRate';
 
 function Header() {
   const email = useSelector((state: RootStateType) => state.user.email);
@@ -7,9 +8,7 @@ function Header() {
   const expenses = useSelector((state: RootStateType) => state.wallet.expenses);
 
   const total = expenses.reduce((acc: number, expense) => {
-    const { currency: currExpense, exchangeRates, value } = expense;
-    const rate = exchangeRates[currExpense].ask;
-    return Number(value) * rate + acc;
+    return calcExRate(expense) + acc;
   }, 0);
 
   return (
