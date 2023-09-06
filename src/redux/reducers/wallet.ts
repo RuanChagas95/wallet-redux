@@ -1,10 +1,11 @@
-import { addExpense, setCurrencies } from '../actions/actionsTypes';
+import { addExpense, deleteExpense, setCurrencies } from '../actions/actionsTypes';
+import { ExpensesType } from '../../types';
 
 const initialState = {
   currencies: [],
-  expenses: [],
+  expenses: <ExpensesType[]>[],
 };
-type ActionType = { type: string; payload: [] };
+type ActionType = { type: string; payload: [] | number };
 export default function walletReducer(state = initialState, action: ActionType) {
   switch (action.type) {
     case setCurrencies: {
@@ -13,6 +14,11 @@ export default function walletReducer(state = initialState, action: ActionType) 
 
     case addExpense: {
       return { ...state, expenses: [...state.expenses, action.payload] };
+    }
+    case deleteExpense: {
+      return { ...state,
+        expenses:
+        [...state.expenses.filter((expense) => expense.id !== action.payload)] };
     }
     default: { return state; }
   }
